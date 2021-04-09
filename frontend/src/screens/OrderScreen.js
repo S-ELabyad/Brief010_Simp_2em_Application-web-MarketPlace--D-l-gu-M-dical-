@@ -1,8 +1,9 @@
 import Axios from 'axios';
+import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { detailsOrder } from '../actions/orderActions';
+import { detailsOrder, payOrder } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
@@ -28,18 +29,25 @@ export default function OrderScreen(props) {
       };
       document.body.appendChild(script);
        };
-       if(!order._id){
+       if(!order){
          dispatch(detailsOrder(orderId));
        }else{
          if(!order.isPaid){
            if(!window.paypal) {
-             
+              addPayPalScript();
+           } else {
+            setSdkReady(true);
            }
             
          }
        }
-    dispatch(detailsOrder(orderId));
-  }, [dispatch, orderId]);
+
+  }, [dispatch, order, orderId, sdkReady]);
+
+  const successPaymentHandler = (paymentResults) => {
+    // todo: dispatch pay order
+    dispatch(payOrder(order, paymentResults));
+  };
 
   return loading? ( 
    <LoadingBox></LoadingBox>
@@ -148,6 +156,21 @@ export default function OrderScreen(props) {
                   </div>
                 </div>
               </li>
+
+              {
+                !order.isPaid && (
+                  <li>
+                    {!sdkReady? (
+                    <LoadingBox></LoadingBox>
+                    ):(
+                      <PayPalButton 
+                        amount={order.totalPrice} 
+                        onSuccess= {successPaymentHandler} 
+                      ></PayPalButton>
+                    )}
+                  </li>
+                )
+              }
 
             </ul>
           </div>
