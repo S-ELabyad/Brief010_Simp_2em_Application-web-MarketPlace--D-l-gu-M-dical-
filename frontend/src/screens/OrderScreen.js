@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -16,6 +17,27 @@ export default function OrderScreen(props) {
   const {order , loading, error} = orderDetails;
   
   useEffect(() => {
+    const addPayPalScript = async () => {
+      const { data } = await Axios.get('/api/config/paypal');
+      const script  =  document.createElement('script');
+      script.type="text/javascript";
+      script.src= `https://www.paypal.com/sdk/js?client-id=${data}` ;
+      script.async= true;
+      script.onload =() => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+       };
+       if(!order._id){
+         dispatch(detailsOrder(orderId));
+       }else{
+         if(!order.isPaid){
+           if(!window.paypal) {
+             
+           }
+            
+         }
+       }
     dispatch(detailsOrder(orderId));
   }, [dispatch, orderId]);
 
