@@ -1,27 +1,69 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Rating from './Rating';
 
-export default function Product(props) {
-    const {product} = props;
-    return (
-        <div key={product._id}  className="card">
-        <Link to={`/product/${product._id}`}>
-            <img
-             className="medium"
-             src={product.image} 
-             alt={product.name}  />
-            </Link>
-        <div className="card-body">
-        <Link to={`/product/${product._id}`}>
-                <h2>{product.name}</h2>
-            </Link>
-
-            <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
-            <div className="price"> ${product.price}  </div>
-        </div>
-    
+export default function Rating(props) {
+  const { rating, numReviews, caption } = props;
+  return (
+    <div className="rating">
+      <span>
+        <i
+          className={
+            rating >= 1
+              ? 'fa fa-star'
+              : rating >= 0.5
+              ? 'fa fa-star-half-o'
+              : 'fa fa-star-o'
+          }
+        ></i>
+      </span>
+      <span>
+        <i
+          className={
+            rating >= 2
+              ? 'fa fa-star'
+              : rating >= 1.5
+              ? 'fa fa-star-half-o'
+              : 'fa fa-star-o'
+          }
+        ></i>
+      </span>
+      <span>
+        <i
+          className={
+            rating >= 3
+              ? 'fa fa-star'
+              : rating >= 2.5
+              ? 'fa fa-star-half-o'
+              : 'fa fa-star-o'
+          }
+        ></i>
+      </span>
+      <span>
+        <i
+          className={
+            rating >= 4
+              ? 'fa fa-star'
+              : rating >= 3.5
+              ? 'fa fa-star-half-o'
+              : 'fa fa-star-o'
+          }
+        ></i>
+      </span>
+      <span>
+        <i
+          className={
+            rating >= 5
+              ? 'fa fa-star'
+              : rating >= 4.5
+              ? 'fa fa-star-half-o'
+              : 'fa fa-star-o'
+          }
+        ></i>
+      </span>
+      {caption ? (
+        <span>{caption}</span>
+      ) : (
+        <span>{numReviews + ' reviews'}</span>
+      )}
     </div>
-    );
+  );
 }
-

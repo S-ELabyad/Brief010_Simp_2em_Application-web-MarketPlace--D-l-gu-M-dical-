@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector , useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createOrder } from '../actions/orderActions';
 import CheckoutSteps from '../components/CheckoutSteps';
@@ -123,9 +123,9 @@ export default function PlaceOrderScreen(props) {
               </li>
               <li>
                 <button
-                  type="submit"
+                  type="button"
                   onClick={placeOrderHandler}
-                  className="primary"
+                  className="primary block"
                   disabled={cart.cartItems.length === 0}
                 >
                   Place Order
